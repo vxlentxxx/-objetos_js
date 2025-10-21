@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo del Objeto navigator</title>
+</head>
+<body>
+  <h1>Información del Navegador</h1>
+  <ul id="info"></ul>
+
+  <h2>Ubicación del Usuario</h2>
+  <p id="ubicacion">Cargando ubicación...</p>
+
+  <script>
+    const infoList = document.getElementById('info');
+    const ubicacion = document.getElementById('ubicacion');
+
+    const datos = [
+      `User Agent: ${navigator.userAgent}`,
+      `Idioma: ${navigator.language}`,
+      `Plataforma: ${navigator.platform}`,
+      `Conectado a Internet: ${navigator.onLine ? 'Sí' : 'No'}`,
+      `Cookies habilitadas: ${navigator.cookieEnabled}`,
+      `Núcleos del procesador: ${navigator.hardwareConcurrency}`
+    ];
+
+    datos.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      infoList.appendChild(li);
+    });
+
+    // Geolocalización
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          ubicacion.textContent = `Latitud: ${position.coords.latitude}, Longitud: ${position.coords.longitude}`;
+        },
+        (error) => {
+          ubicacion.textContent = `Error obteniendo la ubicación: ${error.message}`;
+        }
+      );
+    } else {
+      ubicacion.textContent = 'Geolocalización no soportada por el navegador.';
+    }
+  </script>
+</body>
+</html>
